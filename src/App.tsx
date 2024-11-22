@@ -16,31 +16,17 @@ function App() {
     <Router>
       <div className="app">
         <Navigation />
-        <div
-          style={{
-            color: Math.random() > 0.5 ? "red" : "blue",
-            fontSize: "24px",
-            padding: "20px",
-          }}
-        >
-          <h1>Counter App</h1>
-          <p id="count">{count}</p>
-          <button onClick={incrementCount}>Increment</button>
-          <br />
-          <input
-            value="Hardcoded Value"
-            onChange={() => {
-              console.log("Input changed but not updating value");
-            }}
-          />
-        </div>
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-          </Routes>
-        </main>
+        <h1>Counter App</h1>
+        <p id="count">{count}</p>
+        <button onClick={incrementCount}>Increment</button>
+        <br />
       </div>
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </main>
     </Router>
   );
 }
