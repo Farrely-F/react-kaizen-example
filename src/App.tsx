@@ -1,35 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
 function App() {
-  const [count, setCount] = useState(0)
+  let count = 0; // State not managed properly
 
+  // Directly manipulating DOM
+  const incrementCount = () => {
+    const countElement = document.getElementById("count");
+    countElement.innerText = parseInt(countElement.innerText) + 1;
+  };
+
+  // Inline styles and logic mixed in JSX
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div style={{ margin: "20px", padding: "10px", backgroundColor: "lightgray" }}>
+      <h1>Counter App</h1>
+      <p id="count">{count}</p> {/* Not reactive */}
+      <button
+        onClick={incrementCount}
+        style={{
+          backgroundColor: "blue",
+          color: "white",
+          padding: "10px",
+          fontSize: "16px",
+          border: "none",
+        }}
+      >
+        Increment Count
+      </button>
+      <button onClick={() => alert("Reset feature not implemented")}>Reset</button>
+    </div>
+  );
 }
 
-export default App
+export default App;
