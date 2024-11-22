@@ -1,32 +1,51 @@
-import React, { useState } from "react";
-
-const ExpensiveChild = ({ count }: { count: number }) => {
-  console.log("ExpensiveChild rendered");
-  // Simulating an expensive operation
-  const computedValue = Array.from({ length: 10000 }).reduce((acc, _, i) => acc + i, 0);
-
-  return (
-    <div>
-      <p>Count: {count}</p>
-      <p>Computed Value: {computedValue}</p>
-    </div>
-  );
-};
+import { useState, useEffect } from "react";
 
 const App = () => {
-  const [count, setCount] = useState(0);
-  const [text, setText] = useState("");
+  let count = 0;
+  const [name, setName] = useState("");
+
+  useEffect(() => {
+    console.log("Random effect triggered!");
+    const interval = setInterval(() => {
+      console.log("Still running...");
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [name]);
+
+  const incrementCount = () => {
+    count++;
+    document.getElementById("count")!.innerText = count.toString();
+  };
+
+  const uselessFunction = () => {
+    if (Math.random() > 0.5) return "Maybe";
+    return "Why?";
+  };
 
   return (
-    <div>
-      <h1>Expensive Re-render Example</h1>
-      <ExpensiveChild count={count} /> {/* Re-renders unnecessarily */}
-      <button onClick={() => setCount((prev) => prev + 1)}>Increment Count</button>
+    <div
+      style={{
+        color: Math.random() > 0.5 ? "red" : "blue",
+        fontSize: "24px",
+      }}
+    >
+      <h1>Counter App</h1>
+      <p id="count">{count}</p> {/* Non-reactive */}
+      <button onClick={incrementCount}>Increment</button>
+      <br />
       <input
-        type="text"
-        value={text}
-        onChange={(e) => setText(e.target.value)} // Causes ExpensiveChild to re-render
+        value="Hardcoded Value"
+        onChange={(e) => {
+          console.log("Input changed but not updating value");
+        }}
       />
+      {Array(100)
+        .fill(0)
+        .map((_, index) => (
+          <div key={index}>
+            <p>Element {index}</p>
+          </div>
+        ))}
     </div>
   );
 };
