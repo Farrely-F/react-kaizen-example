@@ -1,34 +1,48 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navigation from "./components/Navigation";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import "./App.css";
 
-const ExpensiveChild = ({ count }: { count: number }) => {
-  console.log("ExpensiveChild rendered");
-  // Simulating an expensive operation
-  const computedValue = Array.from({ length: 10000 }).reduce((acc, _, i) => acc + i, 0);
-
-  return (
-    <div>
-      <p>Count: {count}</p>
-      <p>Computed Value: {computedValue}</p>
-    </div>
-  );
-};
-
-const App = () => {
+function App() {
   const [count, setCount] = useState(0);
-  const [text, setText] = useState("");
+
+  const incrementCount = () => {
+    setCount((prev) => prev + 1);
+  };
 
   return (
-    <div>
-      <h1>Expensive Re-render Example</h1>
-      <ExpensiveChild count={count} /> {/* Re-renders unnecessarily */}
-      <button onClick={() => setCount((prev) => prev + 1)}>Increment Count</button>
-      <input
-        type="text"
-        value={text}
-        onChange={(e) => setText(e.target.value)} // Causes ExpensiveChild to re-render
-      />
-    </div>
+    <Router>
+      <div className="app">
+        <Navigation />
+        <div
+          style={{
+            color: Math.random() > 0.5 ? "red" : "blue",
+            fontSize: "24px",
+            padding: "20px",
+          }}
+        >
+          <h1>Counter App</h1>
+          <p id="count">{count}</p>
+          <button onClick={incrementCount}>Increment</button>
+          <br />
+          <input
+            value="Hardcoded Value"
+            onChange={() => {
+              console.log("Input changed but not updating value");
+            }}
+          />
+        </div>
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+          </Routes>
+        </main>
+      </div>
+    </Router>
   );
-};
+}
 
 export default App;
